@@ -1,42 +1,61 @@
 import Vue from 'vue';
-import Vuex from 'vuex';
+import Vuex, { StoreOptions } from 'vuex';
 import { resolve } from 'path';
 
 Vue.use(Vuex);
 
 const ADD_LINKE = ['ADD_LINK'];
 
-export default new Vuex.Store({
+export interface RootState {
+  title: string;
+  todos: Todo[];
+}
+
+export interface Todo {
+  todo: string;
+  done: boolean;
+}
+const store: StoreOptions<RootState> = {
   state: {
-    title: 'My title',
-    links: [
-      'http://google.com',
-      'http://coursetro.com',
-      'http://youtube.com',
+    title: 'Cool todo app',
+    todos: [
+      {todo: 'Feed cats', done: true},
+      {todo: 'Make food', done: false},
+      {todo: 'Learn typescript', done: false},
     ],
   },
   mutations: {
-    ADD_LINK(state, link) {
-      state.links.push(link);
+    ADD_TODO(state, todo: string) {
+      state.todos.push({todo, done: false});
     },
-    REMOVE_LINK(state, index) {
-      state.links.splice(index, 1);
+    REMOVE_TODO(state, index: number) {
+      state.todos.splice(index, 1);
+    },
+    TOGGLE_DONE(state, index: number) {
+      state.todos[index].done = !state.todos[index].done;
     },
     REMOVE_ALL(state) {
-      state.links = [];
+      state.todos = [];
     },
   },
   getters: {
-    countLinks(state): number {
-      return state.links.length;
+    countTodos(state): number {
+      return state.todos.length;
+    },
+    countDone(state): number {
+      return state.todos.filter((t: Todo) => t.done).length;
     },
   },
   actions: {
-    removeLink(context, action: RemoveLink) {
-      context.commit('REMOVE_LINK', action.index);
+    removeTodo(context, action: RemoveTodo) {
+      context.commit('REMOVE_TODO', action.index);
     },
-    addLink(context, action: AddLink) {
-      context.commit('ADD_LINK', action.link);
+    toggleTodo(context, action: ToggleTodo) {
+      context.commit('TOGGLE_DONE', action.index);
+    },
+
+    addTodo(context, action: AddTodo) {
+      context.commit('ADD_TODO', action.todo);
     },
     removeAll({commit}) {
       return new Promise((r, reject) => {
@@ -47,20 +66,27 @@ export default new Vuex.Store({
       });
     },
   },
-});
+};
 
-interface RemoveLink {
-  type: 'removeLink';
+export default new Vuex.Store<RootState>(store);
+
+interface RemoveTodo {
+  type: 'removeTodo';
   index: number;
 }
 
-interface AddLink {
-  type: 'addLink';
-  link: string;
+interface AddTodo {
+  type: 'addTodo';
+  todo: string;
+}
+
+interface ToggleTodo {
+  type: 'toggleTodo';
+  index: number;
 }
 
 interface RemoveAll {
   type: 'removeAll';
 }
 
-export type Action = RemoveLink | AddLink | RemoveAll;
+export type Action = RemoveTodo | AddTodo | RemoveAll | ToggleTodo;

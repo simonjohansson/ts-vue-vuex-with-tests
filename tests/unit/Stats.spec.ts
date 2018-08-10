@@ -13,8 +13,8 @@ describe('Stats.vue', () => {
     const button = stats.find('button');
     const p = stats.find('p');
 
-    expect(button.text()).toMatch('Remove all links');
-    expect(p.text()).toMatch('There are currently 3 links');
+    expect(button.text()).toMatch('Remove all todos');
+    expect(p.text()).toMatch('There are currently 3. Out of these 1 are done');
   });
 
 });

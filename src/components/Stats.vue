@@ -1,9 +1,8 @@
 <template>
   <div>
-    <h1>A different component</h1>
-    <p>There are currently {{ countLinks }} links</p>
+    <p>There are currently {{ countTodos }}. Out of these {{ countDone }} are done</p>
 
-    <button v-on:click="removeAllLinks" class="rmAll" >Remove all links</button>
+    <button v-on:click="removeAllTodos" class="rmAll" >Remove all todos</button>
     <p>{{msg}}</p>
   </div>
 </template>
@@ -14,12 +13,12 @@ import { mapGetters } from 'vuex';
 import { Action } from '@/store';
 
 @Component({
-    computed: mapGetters(['countLinks']),
+    computed: mapGetters(['countTodos', 'countDone']),
 })
 export default class Stats extends Vue {
     private msg: string = '';
 
-    private removeAllLinks = () => this.$store.dispatch<Action>({type: 'removeAll'});
+    private removeAllTodos = () => this.$store.dispatch<Action>({type: 'removeAll'});
 }
 </script>
 

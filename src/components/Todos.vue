@@ -2,14 +2,14 @@
   <div>
     <h1>{{ title }}</h1>
 
-    <form @submit.prevent="saveLink">
-      <input class="link input" type="text" placeholder="Add a link" v-model="newLink" />
+    <form @submit.prevent="saveTodo">
+      <input class="todo input" type="text" placeholder="Add a todo" v-model="newTodo" />
     </form>
 
     <ul>
-      <li v-for="(link, index) in links" v-bind:key="index">
-        {{link}}
-        <button v-on:click="rmLink(index)" class="rm">Remove</button>
+      <li v-for="(todo, index) in todos" v-bind:key="index" v-on:click="toggleDone(index)">
+        <span :class="{ 'done' : todo.done }">{{todo.todo}}</span>
+        <button v-on:click="rmTodo(index)" class="rm">X</button>
       </li>
     </ul>
   </div>
@@ -21,17 +21,19 @@ import { Component, Vue } from 'vue-property-decorator';
 import { Action } from '@/store';
 
 @Component({
-  computed: mapState(['links', 'title']),
+  computed: mapState(['todos', 'title']),
 })
-export default class Links extends Vue {
-  private newLink: string = '';
+export default class Todos extends Vue {
+  private newTodo: string = '';
 
-  private saveLink() {
-    this.$store.dispatch<Action>({type: 'addLink', link: this.newLink});
-    this.newLink = '';
+  private saveTodo() {
+    this.$store.dispatch<Action>({type: 'addTodo', todo: this.newTodo});
+    this.newTodo = '';
   }
 
-  private rmLink = (index: number) => this.$store.dispatch<Action>({type: 'removeLink', index});
+  private rmTodo = (index: number) => this.$store.dispatch<Action>({type: 'removeTodo', index});
+  private toggleDone = (index: number) => this.$store.dispatch<Action>({type: 'toggleTodo', index});
+
 }
 </script>
 
@@ -66,6 +68,10 @@ export default class Links extends Vue {
     padding: 5px;
     color: #ff0076;
     cursor:pointer;
+  }
+
+  .done {
+    text-decoration: line-through;
   }
 
 </style>

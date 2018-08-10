@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <div class="left">
-      <Links />
+      <Todos />
     </div>
     <div class="right">
       <Stats />
@@ -11,12 +11,12 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import Links from '@/components/Links.vue'; // @ is an alias to /src
-import Stats from '@/components/Stats.vue'; // @ is an alias to /src
+import Todos from '@/components/Todos.vue';
+import Stats from '@/components/Stats.vue';
 
 @Component({
   components: {
-    Links,
+    Todos,
     Stats,
   },
 })

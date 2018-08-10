@@ -1,7 +1,7 @@
 // https://docs.cypress.io/api/introduction/api.html
 
-describe('My First Test', () => {
-  it('adding a new url adds it to the list', () => {
+describe('Todo app', () => {
+  it('adding a new todo adds it to the list', () => {
     cy.visit('/')
 
     cy.get('li').should('have.length', 3)
@@ -12,7 +12,7 @@ describe('My First Test', () => {
 
   });
 
-  it('deletes a link when clicking on the corresponding button', () => {
+  it('deletes a todo when clicking on the corresponding button', () => {
     cy.visit('/')
 
     cy.get('li').should('have.length', 3)
@@ -23,7 +23,7 @@ describe('My First Test', () => {
 
   });
 
-  it('clears all URLs when clicking the button', () => {
+  it('clears all todos when clicking the button', () => {
     cy.visit('/')
 
     cy.get('li').should('have.length', 3)
