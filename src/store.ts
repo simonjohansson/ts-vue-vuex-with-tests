@@ -4,9 +4,11 @@ import { resolve } from 'path';
 
 Vue.use(Vuex);
 
+const ADD_LINKE = ['ADD_LINK'];
+
 export default new Vuex.Store({
   state: {
-    title: 'My custom title',
+    title: 'My title',
     links: [
       'http://google.com',
       'http://coursetro.com',
@@ -22,7 +24,7 @@ export default new Vuex.Store({
     },
     REMOVE_ALL(state) {
       state.links = [];
-    }
+    },
   },
   getters: {
     countLinks(state): number {
@@ -30,11 +32,11 @@ export default new Vuex.Store({
     },
   },
   actions: {
-    removeLink(context, index) {
-      context.commit('REMOVE_LINK', index);
+    removeLink(context, action: RemoveLink) {
+      context.commit('REMOVE_LINK', action.index);
     },
-    addLink(context, link) {
-      context.commit('ADD_LINK', link)
+    addLink(context, action: AddLink) {
+      context.commit('ADD_LINK', action.link);
     },
     removeAll({commit}) {
       return new Promise((r, reject) => {
@@ -46,3 +48,19 @@ export default new Vuex.Store({
     },
   },
 });
+
+interface RemoveLink {
+  type: 'removeLink';
+  index: number;
+}
+
+interface AddLink {
+  type: 'addLink';
+  link: string;
+}
+
+interface RemoveAll {
+  type: 'removeAll';
+}
+
+export type Action = RemoveLink | AddLink | RemoveAll;

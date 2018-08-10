@@ -10,24 +10,16 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import { mapGetters, mapMutations, mapActions } from 'vuex';
+import { mapGetters } from 'vuex';
+import { Action } from '@/store';
 
 @Component({
     computed: mapGetters(['countLinks']),
-    methods: {
-        ...mapMutations(['REMOVE_ALL']),
-        ...mapActions(['removeAll']),
-    },
 })
 export default class Stats extends Vue {
     private msg: string = '';
 
-    private removeAllLinks() {
-        this.removeAll().then(() => {
-            this.msg = 'All links have been removed';
-        });
-    }
-
+    private removeAllLinks = () => this.$store.dispatch<Action>({type: 'removeAll'});
 }
 </script>
 

@@ -16,32 +16,22 @@
 </template>
 
 <script lang="ts">
-import { mapState, mapMutations, mapActions } from 'vuex';
+import { mapState, mapGetters } from 'vuex';
 import { Component, Vue } from 'vue-property-decorator';
-import { State } from 'vuex-class';
+import { Action } from '@/store';
 
 @Component({
-  computed: mapState(['title', 'links']),
-  methods: {
-    ...mapMutations(['ADD_LINK']),
-    ...mapActions(['addLink', 'removeLink']),
-  },
+  computed: mapState(['links', 'title']),
 })
 export default class Links extends Vue {
   private newLink: string = '';
 
-  constructor() {
-    super();
-  }
-
   private saveLink() {
-    this.addLink(this.newLink);
+    this.$store.dispatch<Action>({type: 'addLink', link: this.newLink});
     this.newLink = '';
   }
 
-  private rmLink(index: number) {
-    this.removeLink(index);
-  }
+  private rmLink = (index: number) => this.$store.dispatch<Action>({type: 'removeLink', index});
 }
 </script>
 
