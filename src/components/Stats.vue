@@ -1,5 +1,5 @@
 <template>
-  <div class="stats">
+  <div>
     <h1>A different component</h1>
     <p>There are currently {{ countLinks }} links</p>
 

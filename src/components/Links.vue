@@ -1,37 +1,27 @@
 <template>
-  <div class="hello">
+  <div>
+    <h1>{{ title }}</h1>
 
-    <div class="left">
-      <h1>{{ title }}</h1>
+    <form @submit.prevent="saveLink">
+      <input class="link input" type="text" placeholder="Add a link" v-model="newLink" />
+    </form>
 
-      <form @submit.prevent="saveLink">
-        <input class="link input" type="text" placeholder="Add a link" v-model="newLink" />
-      </form>
-
-      <ul>
-        <li v-for="(link, index) in links" v-bind:key="index">
-          {{link}}
-          <button v-on:click="rmLink(index)" class="rm">Remove</button>
-        </li>
-      </ul>
-    </div>
-
-    <div class="right">
-      <Stats />
-    </div>
-
+    <ul>
+      <li v-for="(link, index) in links" v-bind:key="index">
+        {{link}}
+        <button v-on:click="rmLink(index)" class="rm">Remove</button>
+      </li>
+    </ul>
   </div>
 </template>
 
 <script lang="ts">
 import { mapState, mapMutations, mapActions } from 'vuex';
-import Stats from '@/components/Stats.vue';
 import { Component, Vue } from 'vue-property-decorator';
 import { State } from 'vuex-class';
 
 @Component({
   computed: mapState(['title', 'links']),
-  components: { Stats },
   methods: {
     ...mapMutations(['ADD_LINK']),
     ...mapActions(['addLink', 'removeLink']),
@@ -57,27 +47,6 @@ export default class Links extends Vue {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style>
-  html, #app, .home {
-    height: 100%;
-  }
-  body {
-    background-color: #F4F4F4;
-    margin: 0;
-    height: 100%;
-  }
-
-  .hello {
-    display: grid;
-    grid-template-columns: repeat(2, 50%);
-    grid-template-rows: 100%;
-    grid-template-areas:
-      "left right";
-    height: 100%;
-  }
-
-  .left, .right {
-    padding: 30px;
-  }
 
   ul {
     list-style-type: none;
@@ -87,11 +56,6 @@ export default class Links extends Vue {
     padding: 20px;
     background: white;
     margin-bottom: 8px;
-  }
-
-  .right {
-    grid-area: right;
-    background-color: #E9E9E9;
   }
 
    input {
