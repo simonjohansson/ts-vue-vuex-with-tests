@@ -7,6 +7,9 @@ module.exports = {
     'ts',
     'tsx'
   ],
+  transformIgnorePatterns: [
+    '/node_modules/.*',
+  ],
   transform: {
     '^.+\\.vue$': 'vue-jest',
     '.+\\.(css|styl|less|sass|scss|png|jpg|ttf|woff|woff2)$': 'jest-transform-stub',
