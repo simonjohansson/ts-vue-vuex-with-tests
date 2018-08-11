@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import Vuex, { StoreOptions } from 'vuex';
+import createPersistedState from 'vuex-persistedstate';
 import { resolve } from 'path';
 
 Vue.use(Vuex);
@@ -18,12 +19,9 @@ export interface Todo {
 const store: StoreOptions<RootState> = {
   state: {
     title: 'Cool todo app',
-    todos: [
-      {todo: 'Feed cats', done: true},
-      {todo: 'Make food', done: false},
-      {todo: 'Learn typescript', done: false},
-    ],
+    todos: [],
   },
+  plugins: [createPersistedState()],
   mutations: {
     ADD_TODO(state, todo: string) {
       state.todos.push({todo, done: false});
@@ -37,6 +35,9 @@ const store: StoreOptions<RootState> = {
     REMOVE_ALL(state) {
       state.todos = [];
     },
+    REMOVE_ALL_DONE(state) {
+      state.todos = state.todos.filter((todo) => !todo.done);
+    }
   },
   getters: {
     countTodos(state): number {
@@ -56,6 +57,9 @@ const store: StoreOptions<RootState> = {
 
     addTodo(context, action: AddTodo) {
       context.commit('ADD_TODO', action.todo);
+    },
+    removeAllDone(context) {
+      context.commit('REMOVE_ALL_DONE');
     },
     removeAll({commit}) {
       return new Promise((r, reject) => {
@@ -89,4 +93,8 @@ interface RemoveAll {
   type: 'removeAll';
 }
 
-export type Action = RemoveTodo | AddTodo | RemoveAll | ToggleTodo;
+interface RemoveAllDone {
+  type: 'removeAllDone';
+}
+
+export type Action = RemoveTodo | AddTodo | RemoveAll | ToggleTodo | RemoveAllDone ;

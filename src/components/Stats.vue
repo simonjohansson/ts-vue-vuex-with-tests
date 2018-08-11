@@ -3,6 +3,9 @@
     <p>There are currently {{ countTodos }}. Out of these {{ countDone }} are done</p>
 
     <button v-on:click="removeAllTodos" class="rmAll" >Remove all todos</button>
+
+    <button v-if="countDone > 0" v-on:click="removeAllDone" class="rmAll"> Remove all done todos </button>
+
     <p>{{msg}}</p>
   </div>
 </template>
@@ -19,6 +22,8 @@ export default class Stats extends Vue {
     private msg: string = '';
 
     private removeAllTodos = () => this.$store.dispatch<Action>({type: 'removeAll'});
+
+    private removeAllDone = () => this.$store.dispatch<Action>({type: 'removeAllDone'});
 }
 </script>
 

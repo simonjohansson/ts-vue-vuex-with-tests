@@ -6,12 +6,12 @@
       <input class="todo input" type="text" placeholder="Add a todo" v-model="newTodo" />
     </form>
 
-    <ul>
-      <li v-for="(todo, index) in todos" v-bind:key="index" v-on:click="toggleDone(index)">
-        <span :class="{ 'done' : todo.done }">{{todo.todo}}</span>
-        <button v-on:click="rmTodo(index)" class="rm">X</button>
+    <transition-group name="list-item" tag="ul" class="list__ul">
+      <li v-for="(todo, index) in todos" v-bind:key="index">
+          <span v-on:click="toggleDone(index)" :class="{ 'done' : todo.done }">{{todo.todo}}</span>
+          <button v-on:click="rmTodo(index)" class="rm">X</button>
       </li>
-    </ul>
+    </transition-group>
   </div>
 </template>
 
@@ -72,6 +72,19 @@ export default class Todos extends Vue {
 
   .done {
     text-decoration: line-through;
+  }
+
+  .list-item-enter-active, .list-item-leave-active {
+    transition: opacity 0.3s, transform 0.5s;
+    transform-origin: right center;
+  }
+
+  .list-item-enter, .list-item-leave-to {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+
+  ul li span {
   }
 
 </style>
